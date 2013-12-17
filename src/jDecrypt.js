@@ -1,8 +1,11 @@
 var jDecrypt = function() {
-	var that = this;
-	that.text
-	that.languaje
-	that.encryption
+	var that = this
+	this.text, 
+	that.encryption, 
+	that.posibility = {
+		spanish: 0,
+		german: 0
+	}
 
 	String.prototype.replaceAt = function(index, character) {
 		return this.substr(0, index) + character + this.substr(index+character.length);
@@ -17,18 +20,33 @@ var jDecrypt = function() {
 		var languages = {
 			spanish: 0,
 			german: 0
-		}, matches = 0;
+		}
+
 		text = text || that.text || "";
 
 		/* SPANISH */
 
-		if (that.text.match(new RegExp("[Ñ¿¡]"))) {
+		if (text.match(new RegExp("[Ñ¿¡]"))) {
 			return "spanish";
 		}
 
+		languages.spanish = languages.spanish + (text.match(new RegExp("[ÁÉÍÓÚÜ]", "g")) || []).length * 3;
+		languages.spanish = languages.spanish + (text.match(new RegExp("(?:QU[EI]|ADO|IDO)", "g")) || []).length * 3;
+
 		/* GERMAN */
 
-		if (that.text.match(new RegExp("ß"))) {
+		if (text.match(new RegExp("ß"))) {
+			return "german";
+		}
+
+		languages.german = languages.german + (text.match(new RegExp("[ÄÖÜ]", "g")) || []).length * 3;
+		languages.german = languages.german + (text.match(new RegExp("(?:SCH|R?AU[FS]|R?EIN|ZU|ÜBER)", "g")) || []).length * 3;
+
+		/* CHECK */
+		
+		if (languages.spanish > languages.german * 1.5) {
+			return "spanish";
+		} else if (languages.german > languages.spanish * 1.5) {
 			return "german";
 		}
 

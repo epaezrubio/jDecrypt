@@ -3,12 +3,16 @@ test("QUnit working", function() {
 })
 test("Languaje: Spanish", function() {
 	var spanishDecrypt = jDecrypt();
-	spanishDecrypt.setText("IPMB, ¿RVF UBM?", "¿ Character Detection")
+	spanishDecrypt.setText("IPMB, ¿RVF UBM?", "¿ Character Detection");
 	equal(spanishDecrypt.getLanguage(), "spanish");
-	spanishDecrypt.setText("BÑP RVF WJFOF", "Ñ Character Detection")
+	spanishDecrypt.setText("BÑP RVF WJFOF", "Ñ Character Detection");
 	equal(spanishDecrypt.getLanguage(), "spanish");
-	spanishDecrypt.setText("IPMB, RVF UBM", "Spanish Detectioin")
+	spanishDecrypt.setText("IPMB, RVF UBM", "Spanish Detection");
 	equal(spanishDecrypt.getLanguage(), "spanish");
+	spanishDecrypt.setText("EN UN LUGAR DE LA MANCHA, DE CUYO NOMBRE NO QUIERO ACORDARME", "Spanish Detection");
+	equal(spanishDecrypt.getLanguage(), "spanish");
+	spanishDecrypt.setText("DIE LEUTE SPRECHEN ÜBER DAS BUCH", "German Detection");
+	equal(spanishDecrypt.getLanguage(), "german");
 })
 test("Languaje: German", function() {
 	var germanDecrypt = jDecrypt();
