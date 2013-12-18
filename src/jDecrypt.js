@@ -22,7 +22,7 @@ var jDecrypt = function() {
 			german: 0
 		}
 
-		text = text || that.text || "";
+		text = (text || that.text || "").toUpperCase();
 
 		/* SPANISH */
 
@@ -31,7 +31,8 @@ var jDecrypt = function() {
 		}
 
 		languages.spanish = languages.spanish + (text.match(new RegExp("[ÁÉÍÓÚÜ]", "g")) || []).length * 3;
-		languages.spanish = languages.spanish + (text.match(new RegExp("(?:QU[EI]|ADO|IDO)", "g")) || []).length * 3;
+		languages.spanish = languages.spanish + (text.match(new RegExp("(?:\w+ADO|\w+IDO)[ ,.?!]", "g")) || []).length * 3;
+		languages.spanish = languages.spanish + (text.match(new RegExp("QU[EI]", "g")) || []).length * 2;
 
 		/* GERMAN */
 
@@ -69,5 +70,51 @@ var jDecrypt = function() {
 		return upperCaseText;
 	}
 
-	return {setText:setText, getLanguage:getLanguage, caesar:caesar}
+	var base64 = function(input) {
+	    var chrKey = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+	    var output = "", string = "";
+	    var chr1, chr2, chr3;
+	    var enc1, enc2, enc3, enc4;
+	    var c = c1 = c2 = 0, i = 0;
+	    while (i < input.length) {
+	        enc1 = chrKey.indexOf(input.charAt(i++));
+	        enc2 = chrKey.indexOf(input.charAt(i++));
+	        enc3 = chrKey.indexOf(input.charAt(i++));
+	        enc4 = chrKey.indexOf(input.charAt(i++));
+	        chr1 = (enc1 << 2) | (enc2 >> 4);
+	        chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+	        chr3 = ((enc3 & 3) << 6) | enc4;
+	        output = output + String.fromCharCode(chr1);
+	        if (enc3 != 64) {
+	            output = output + String.fromCharCode(chr2);
+	        }
+	        if (enc4 != 64) {
+	            output = output + String.fromCharCode(chr3);
+	        }
+	    }
+
+	    i = 0;
+	    while ( i < output.length ) {
+	        c = output.charCodeAt(i);
+	        if (c < 128) {
+	            string += String.fromCharCode(c);
+	            i++;
+	        }
+	        else if((c > 191) && (c < 224)) {
+	            c2 = output.charCodeAt(i+1);
+	            string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+	            i += 2;
+	        }
+	        else {
+	            c2 = output.charCodeAt(i+1);
+	            c3 = output.charCodeAt(i+2);
+	            string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+	            i += 3;
+	        }
+	    }
+	    
+	    return string;
+	}
+
+	return {setText:setText, getLanguage:getLanguage, caesar:caesar, base64:base64}
 }
