@@ -1,11 +1,7 @@
 var jDecrypt = function() {
 	var that = this
 	this.text, 
-	that.encryption, 
-	that.posibility = {
-		spanish: 0,
-		german: 0
-	}
+	that.encryption;
 
 	String.prototype.replaceAt = function(index, character) {
 		return this.substr(0, index) + character + this.substr(index+character.length);
@@ -19,7 +15,8 @@ var jDecrypt = function() {
 
 		var languages = {
 			spanish: 0,
-			german: 0
+			german: 0,
+			english: 0
 		}
 
 		text = (text || that.text || "").toUpperCase();
@@ -43,15 +40,27 @@ var jDecrypt = function() {
 		languages.german = languages.german + (text.match(new RegExp("[ÄÖÜ]", "g")) || []).length * 3;
 		languages.german = languages.german + (text.match(new RegExp("(?:SCH|R?AU[FS]|R?EIN|ZU|ÜBER)", "g")) || []).length * 3;
 
+        /* ENGLISH */
+
+        languages.english = languages.english + (text.match(new RegExp("(?: THE | OF | IN )", "g")) || []).length * 4;
+        languages.english = languages.english + (text.match(new RegExp("GHT", "g")) || []).length * 3;
+
 		/* CHECK */
 		
-		if (languages.spanish > languages.german * 1.5) {
-			return "spanish";
-		} else if (languages.german > languages.spanish * 1.5) {
-			return "german";
+		var language = l1 = l2 = "unknown";
+
+		for (l in languages) {
+			if (languages[l] >= (languages[l1] || 0)) {
+				l2 = l1;
+				l1 = l;
+			}
 		}
 
-		return "unknown"
+		if (languages[l1] !== 0 && languages[l1] >= ((languages[l2] * 1.5) || 0)) {
+			language = l1;
+		}
+
+		return language;
 
 	}
 

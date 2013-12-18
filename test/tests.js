@@ -7,7 +7,7 @@ test("Languaje: Spanish", function() {
 	equal(spanishDecrypt.getLanguage(), "spanish", "¿ Character Detection");
 	spanishDecrypt.setText("BÑP RVF WJFOF");
 	equal(spanishDecrypt.getLanguage(), "spanish", "Ñ Character Detection");
-	spanishDecrypt.setText("IPMB, RVF UBM", "Spanish Detection");
+	spanishDecrypt.setText("IPMB, RVF UBM");
 	equal(spanishDecrypt.getLanguage(), "unknown", "Spanish Detection");
 	spanishDecrypt.setText("EN UN LUGAR DE LA MANCHA, DE CUYO NOMBRE NO QUIERO ACORDARME");
 	equal(spanishDecrypt.getLanguage(), "spanish", "Spanish Detection");
@@ -39,4 +39,9 @@ test("Base64", function() {
 	var myDecrypt = jDecrypt();
 	equal(myDecrypt.base64("Q2Fuc8Ozc2UgZWwgbW96bw=="), "Cansóse el mozo");
 	equal(myDecrypt.base64("4oCUIEltcG9ydGEgZXNvIHBvY28g4oCUcmVzcG9uZGnDsyBkb24gUXVpam90ZeKAlCwgcXVlIEhhbGR1ZG9zIHB1ZWRlIGhhYmVyIGNhYmFsbGVyb3M7IGN1YW50byBtw6FzLCBxdWUgY2FkYSB1bm8gZXMgaGlqbyBkZSBzdXMgb2JyYXMu"), "— Importa eso poco —respondió don Quijote—, que Haldudos puede haber caballeros; cuanto más, que cada uno es hijo de sus obras.");
+})
+test("Languaje: English", function() {
+    var englishDecrypt = jDecrypt();
+    englishDecrypt.setText("THE TWO JAILED MEMBERS OF THE PUNK GROUP PUSSY RIOT AND 30 MEMBERS OF A GREENPEACE CREW AWAITING TRIAL IN ST PETERSBURG WERE GRANTED AMNESTY TODAY AND WILL BE FREE AS SOON AS THEIR PAPERWORK IS COMPLETE.");
+    equal(englishDecrypt.getLanguage(), "english", "English Detection");
 })
