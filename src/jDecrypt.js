@@ -11,6 +11,27 @@ var jDecrypt = function() {
 		that.text = text.toUpperCase();
 	}
 
+	var getMostProbableItem = function(object, tolerance) {
+		
+		tolerance = (typeof tolerance !== "undefined" && tolerance > 1) ? tolerance : 1.5;
+
+		var result = i1 = i2 = "unknown";
+
+		for (l in object) {
+			if (object[l] >= (object[i1] || 0)) {
+				i2 = i1;
+				i1 = l;
+			}
+		}
+
+		if (object[i1] !== 0 && object[i1] >= ((object[i2] * tolerance) || 0)) {
+			result = i1;
+		}
+
+		return result;
+
+	}
+
 	var getLanguage = function(text) {
 
 		var languages = {
@@ -43,26 +64,32 @@ var jDecrypt = function() {
         /* ENGLISH */
 
         languages.english = languages.english + (text.match(new RegExp("(?: THE | OF | IN )", "g")) || []).length * 4;
-        languages.english = languages.english + (text.match(new RegExp("GHT", "g")) || []).length * 3;
+        languages.english = languages.english + (text.match(new RegExp("(?:\w{2,}GHT|\w')", "g")) || []).length * 3;
 
-		/* CHECK */
-		
-		var language = l1 = l2 = "unknown";
+		/* CHECK AND RETURN */
 
-		for (l in languages) {
-			if (languages[l] >= (languages[l1] || 0)) {
-				l2 = l1;
-				l1 = l;
-			}
-		}
-
-		if (languages[l1] !== 0 && languages[l1] >= ((languages[l2] * 1.5) || 0)) {
-			language = l1;
-		}
-
-		return language;
+		return getMostProbableItem(languages, 1.5);
 
 	}
+
+	var getEncryption = function(text) {
+
+		var encryptions = {
+			caesar: 0,
+			base64: 0
+		}
+
+		if (text.match(new RegExp("^[A-z0-9]*\={0,2}$"))) {
+			return "base64";
+		}
+
+		if (text.toUpperCase() == text) {
+			return "caesar";
+		}
+
+		return getMostProbableItem(encryptions, 1.5);
+
+	} 
 
 	var caesar = function(text, shift) {
 		var upperCaseText = text.toUpperCase() || that.text || "";
@@ -125,5 +152,5 @@ var jDecrypt = function() {
 	    return string;
 	}
 
-	return {setText:setText, getLanguage:getLanguage, caesar:caesar, base64:base64}
+	return {setText:setText, getLanguage:getLanguage, caesar:caesar, base64:base64, getEncryption:getEncryption}
 }

@@ -21,6 +21,11 @@ test("Languaje: German", function() {
 	germanDecrypt.setText("DIE LEUTE SPRECHEN ÜBER DAS BUCH");
 	equal(germanDecrypt.getLanguage(), "german", "German Detection");
 })
+test("Languaje: English", function() {
+    var englishDecrypt = jDecrypt();
+    englishDecrypt.setText("THE TWO JAILED MEMBERS OF THE PUNK GROUP PUSSY RIOT AND 30 MEMBERS OF A GREENPEACE CREW AWAITING TRIAL IN ST PETERSBURG WERE GRANTED AMNESTY TODAY AND WILL BE FREE AS SOON AS THEIR PAPERWORK IS COMPLETE.");
+    equal(englishDecrypt.getLanguage(), "english", "English Detection");
+})
 test("Caesar", function() {
 	var myDecrypt = jDecrypt();
 	equal(myDecrypt.caesar("ABC"), "BCD", "Simple Ceasar");
@@ -40,8 +45,10 @@ test("Base64", function() {
 	equal(myDecrypt.base64("Q2Fuc8Ozc2UgZWwgbW96bw=="), "Cansóse el mozo");
 	equal(myDecrypt.base64("4oCUIEltcG9ydGEgZXNvIHBvY28g4oCUcmVzcG9uZGnDsyBkb24gUXVpam90ZeKAlCwgcXVlIEhhbGR1ZG9zIHB1ZWRlIGhhYmVyIGNhYmFsbGVyb3M7IGN1YW50byBtw6FzLCBxdWUgY2FkYSB1bm8gZXMgaGlqbyBkZSBzdXMgb2JyYXMu"), "— Importa eso poco —respondió don Quijote—, que Haldudos puede haber caballeros; cuanto más, que cada uno es hijo de sus obras.");
 })
-test("Languaje: English", function() {
-    var englishDecrypt = jDecrypt();
-    englishDecrypt.setText("THE TWO JAILED MEMBERS OF THE PUNK GROUP PUSSY RIOT AND 30 MEMBERS OF A GREENPEACE CREW AWAITING TRIAL IN ST PETERSBURG WERE GRANTED AMNESTY TODAY AND WILL BE FREE AS SOON AS THEIR PAPERWORK IS COMPLETE.");
-    equal(englishDecrypt.getLanguage(), "english", "English Detection");
+test("Encryption Detection", function() {
+	var myDecrypt = jDecrypt();
+	equal(myDecrypt.getEncryption("QBSBOPJB, FTUBEP NFOUBM QBUPMÓHJDP FO FM RVF FM QBDJFOUF TVGSF EFMJSJPT"), "caesar", "Caesar Encryption Detection");
+	equal(myDecrypt.getEncryption("TEVERSME, IWXEHS QIRXEP TEXSPÓKMGS IR IP UYI IP TEGMIRXI WYJVI HIPMVMSW"), "caesar", "Caesar Encryption Detection 2");
+	equal(myDecrypt.getEncryption("UGFyYW5vaWEsIGVzdGFkbyBtZW50YWwgcGF0b2zzZ2ljbyBlbiBlbCBxdWUgZWwgcGFjaWVudGUgc3VmcmUgZGVsaXJpb3M="), "base64", "Base64 Encryption Detection");	
+	equal(myDecrypt.getEncryption("VEVWRVJTTUUsIElXWEVIUyBRSVJYRVAgVEVYU1DTS01HUyBJUiBJUCBVWUkgSVAgVEVHTUlSWEkgV1lKVkkgSElQTVZNU1c"), "base64", "Base64 Encryption Detection 2");
 })
