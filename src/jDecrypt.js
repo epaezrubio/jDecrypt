@@ -32,6 +32,19 @@ var jDecrypt = function() {
 
 	}
 
+	var getNumericEncryption = function(text, base, groupLength) {
+
+		var output = "";
+		var groups = text.replace(new RegExp(" ", "g"), "").match(new RegExp("\.{1," + groupLength + "}", "g"));
+
+		for (var i = 0; i < groups.length; i++) {
+			output = output + String.fromCharCode(parseInt(groups[i], base));
+		}
+
+		return output;
+
+	}
+
 	var getLanguage = function(text) {
 
 		var languages = {
@@ -116,17 +129,17 @@ var jDecrypt = function() {
 		return upperCaseText;
 	}
 
-	var base64 = function(input) {
+	var base64 = function(text) {
 	    var chrKey = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 	    var output = "", string = "";
 	    var chr1, chr2, chr3;
 	    var enc1, enc2, enc3, enc4;
 	    var c = c1 = c2 = 0, i = 0;
-	    while (i < input.length) {
-	        enc1 = chrKey.indexOf(input.charAt(i++));
-	        enc2 = chrKey.indexOf(input.charAt(i++));
-	        enc3 = chrKey.indexOf(input.charAt(i++));
-	        enc4 = chrKey.indexOf(input.charAt(i++));
+	    while (i < text.length) {
+	        enc1 = chrKey.indexOf(text.charAt(i++));
+	        enc2 = chrKey.indexOf(text.charAt(i++));
+	        enc3 = chrKey.indexOf(text.charAt(i++));
+	        enc4 = chrKey.indexOf(text.charAt(i++));
 	        chr1 = (enc1 << 2) | (enc2 >> 4);
 	        chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
 	        chr3 = ((enc3 & 3) << 6) | enc4;
@@ -162,5 +175,13 @@ var jDecrypt = function() {
 	    return string;
 	}
 
-	return {setText:setText, getLanguage:getLanguage, caesar:caesar, base64:base64, getEncryption:getEncryption}
+	var binary = function(text) {
+		return getNumericEncryption(text, 2, 8);
+	}
+
+	var hexadecimal = function(text) {
+		return getNumericEncryption(text, 16, 2);
+	}
+
+	return {setText:setText, getLanguage:getLanguage, getEncryption:getEncryption, caesar:caesar, base64:base64, binary:binary, hexadecimal:hexadecimal}
 }
