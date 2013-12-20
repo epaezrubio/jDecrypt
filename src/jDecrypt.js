@@ -76,7 +76,17 @@ var jDecrypt = function() {
 
 		var encryptions = {
 			caesar: 0,
-			base64: 0
+			base64: 0,
+			binary: 0,
+			hexadecimal: 0
+		}
+
+		if (text.match("^[01 ]*$")) {
+			return "binary";
+		}
+
+		if (text.toUpperCase().match("^[A-F0-9 ]*[A-F0-9]{1,2}$")) {
+			return "hexadecimal";
 		}
 
 		if (text.match(new RegExp("^[A-z0-9]*\={0,2}$"))) {

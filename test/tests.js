@@ -51,4 +51,8 @@ test("Encryption Detection", function() {
 	equal(myDecrypt.getEncryption("TEVERSME, IWXEHS QIRXEP TEXSPÓKMGS IR IP UYI IP TEGMIRXI WYJVI HIPMVMSW"), "caesar", "Caesar Encryption Detection 2");
 	equal(myDecrypt.getEncryption("UGFyYW5vaWEsIGVzdGFkbyBtZW50YWwgcGF0b2zzZ2ljbyBlbiBlbCBxdWUgZWwgcGFjaWVudGUgc3VmcmUgZGVsaXJpb3M="), "base64", "Base64 Encryption Detection");	
 	equal(myDecrypt.getEncryption("VEVWRVJTTUUsIElXWEVIUyBRSVJYRVAgVEVYU1DTS01HUyBJUiBJUCBVWUkgSVAgVEVHTUlSWEkgV1lKVkkgSElQTVZNU1c"), "base64", "Base64 Encryption Detection 2");
+	equal(myDecrypt.getEncryption("48 6f 6c 61 20 71 75 65 20 74 61 6c 20 73 6f 79 20 63 6f 6c 6f 73 61 6c"), "hexadecimal", "Hexadecimal");	
+	equal(myDecrypt.getEncryption("4c4120454c20414c424120534552cd41"), "hexadecimal", "Hexadecimal 2");
+	equal(myDecrypt.getEncryption("01001000 01001111 01001100 01000001"), "binary", "Hexadecimal");	
+	equal(myDecrypt.getEncryption("011101000111001101101000111111000111001101110011 "), "binary	", "Hexadecimal 2");
 })
