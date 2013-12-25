@@ -57,20 +57,14 @@ var jDecrypt = function() {
 
 		/* SPANISH */
 
-		if (text.match(new RegExp("[Ñ¿¡]"))) {
-			return "spanish";
-		}
-
+		languages.spanish = languages.spanish + (text.match(new RegExp("[Ñ¿¡]", "g")) || []).length * 20;
 		languages.spanish = languages.spanish + (text.match(new RegExp("[ÁÉÍÓÚÜ]", "g")) || []).length * 3;
 		languages.spanish = languages.spanish + (text.match(new RegExp("(?:\w+ADO|\w+IDO)[ ,.?!]", "g")) || []).length * 3;
 		languages.spanish = languages.spanish + (text.match(new RegExp("QU[EI]", "g")) || []).length * 2;
 
 		/* GERMAN */
 
-		if (text.match(new RegExp("ß"))) {
-			return "german";
-		}
-
+		languages.german = languages.german + (text.match(new RegExp("[ß]", "g")) || []).length * 20;
 		languages.german = languages.german + (text.match(new RegExp("[ÄÖÜ]", "g")) || []).length * 3;
 		languages.german = languages.german + (text.match(new RegExp("(?:SCH|R?AU[FS]|R?EIN|ZU|ÜBER)", "g")) || []).length * 3;
 
