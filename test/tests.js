@@ -20,6 +20,8 @@ test("Languaje: German", function() {
 	equal(germanDecrypt.getLanguage(), "german", "ß Character Detected");
 	germanDecrypt.setText("DIE LEUTE SPRECHEN ÜBER DAS BUCH");
 	equal(germanDecrypt.getLanguage(), "german", "German Detection");
+	germanDecrypt.setText("DIE LEUTE SPRECHEN ÜBER DAS BUCH 'QUE PASA'");
+	equal(germanDecrypt.getLanguage(), "unknown", "Unknown Case Due to Tolerance");
 })
 test("Languaje: English", function() {
     var englishDecrypt = jDecrypt();

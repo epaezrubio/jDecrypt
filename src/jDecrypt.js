@@ -13,7 +13,7 @@ var jDecrypt = function() {
 
 	var getMostProbableItem = function(object, tolerance) {
 		
-		tolerance = (typeof tolerance !== "undefined" && tolerance > 1) ? tolerance : 1.5;
+		tolerance = (typeof tolerance !== "undefined" && tolerance >= 0 && tolerance <= 1) ? tolerance : 0.5;
 
 		var result = i1 = i2 = "unknown";
 
@@ -23,8 +23,9 @@ var jDecrypt = function() {
 				i1 = l;
 			}
 		}
-
-		if (object[i1] !== 0 && object[i1] >= ((object[i2] * tolerance) || 0)) {
+		console.log(object);
+		console.log(object[i1] + " - " + object[i2] + " - " + tolerance);
+		if (object[i1] !== 0 && (object[i2] || 0) <= (object[i1] * tolerance)) {
 			result = i1;
 		}
 
@@ -75,7 +76,7 @@ var jDecrypt = function() {
 
 		/* CHECK AND RETURN */
 
-		return getMostProbableItem(languages, 1.5);
+		return getMostProbableItem(languages, 0.5);
 
 	}
 
@@ -104,7 +105,7 @@ var jDecrypt = function() {
 			return "caesar";
 		}
 
-		return getMostProbableItem(encryptions, 1.5);
+		return getMostProbableItem(encryptions, 0.5);
 
 	} 
 
